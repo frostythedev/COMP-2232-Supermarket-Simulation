@@ -94,7 +94,9 @@ public class Supermarket {
             items.put(item.getName().toLowerCase(), item);
         }
 
-        //
+        // Initializes a vendor and their stock, their initial stock is randomly generated and stored to each
+        // respective item
+        // A vendors restock involves adding a random amount between 10 and 100 to the current stock
         vendors.add(new Vendor("Fruits Are Here") {
             @Override
             public void init() {
@@ -111,6 +113,7 @@ public class Supermarket {
 
                     randomTotal -= rndAdd;
                 }
+
             }
 
             @Override
@@ -177,6 +180,9 @@ public class Supermarket {
         });
     }
 
+    // Defines a customer purchase which chooses a random item and random amount which is bought from the
+    // supermarket, it logs the respective transaction and decreases the stock by the amount bought
+    // Takes in 1 parameter which indiciates which cycle the purchase is taking place in for logging purposes
     public void customerPurchase(int cycle) {
 
         List<String> keys = new ArrayList<>(items.keySet());
@@ -188,7 +194,6 @@ public class Supermarket {
         if (rndAmt > item.getQuantity()) {
             rndAmt = item.getQuantity();
 
-            //VENDOR RESTOCK
         }
 
         double cost = rndAmt * item.getCost();
@@ -201,11 +206,13 @@ public class Supermarket {
         item.setQuantity(item.getQuantity() - rndAmt);
     }
 
+    // randomly chooses a random event and sets it to run over the curren cycle
     public void chooseRandomEvent() {
         randomEventType = RandomEventType.values()[Utilities.generateRndNumber(RandomEventType.values().length)];
         runEvent = true;
     }
 
+    // Returns a formatted string that shows the respective commands, and the value that was supplied at runtime
     public String getCommandsPassed() {
         return ("""
                 Verbose: %s
@@ -216,6 +223,7 @@ public class Supermarket {
                         (logFile == null ? "N/A, default printing to commandline" : logFile));
     }
 
+    // Begins the simulation
     public void run() {
 
         if(!logs.isEmpty()){
@@ -223,7 +231,7 @@ public class Supermarket {
         }
         //logs.clear();
 
-        // cycle
+        // Start running cycles of the simulation
         for (int i = 0; i < totalCycles; i++) {
             // perform simulation actions.
 
@@ -231,22 +239,30 @@ public class Supermarket {
                 print("Simulation Started");
             }
 
-            // random even may occur each day
+            // random event may occur each day with a 25% probably
             if (i != 1 && Utilities.generateRndNumber(1, 101) < 25) {
                 // random even occurs
                 chooseRandomEvent();
-                log(i, randomEventType.name());
+                log(i, "RANDOM EVENT>" + randomEventType.name());
             }
-            //print("DEBUG 2");
 
+            // Every 10 cycles a random event WILL 100% occur, this chooses that random event and logs it
+            if (i > 1 && i % 10 == 0) {
+                chooseRandomEvent();
+                log(i, "RANDOM EVENT>" + randomEventType.name());
+            }
+
+            // Random events which may occur at the start of each day and their implementation
             if (runEvent) {
                 switch (randomEventType) {
                     case FRIDGE_DOWN -> {
                         int fridgeCost = Utilities.generateRndNumber(0, 101);
                         profit -= fridgeCost;
                     }
+                    // If the electricity off event is choosen then a random percentage of items will spoilt based on
+                    // the hours the electricty stays off, this may be between 1 and 5 hours
                     case ELECTRICITY_OFF -> {
-                        int rndHours = Utilities.generateRndNumber(1, 5);
+                        int rndHours = Utilities.generateRndNumber(1, 6);
 
                         for (Item item : items.values()) {
                             int instaSpoilt = item.getQuantity() * (rndHours / 100);
@@ -257,6 +273,9 @@ public class Supermarket {
 
                         }
                     }
+                    // if spoiltItems randomEvent is choosen then a random percentage of the items (between 1-10) in
+                    // stock will instantly spoil according to the randomly generated number, a log is made when this
+                    // happens
                     case SPOILT_ITEMS -> {
 
                         int rndHours = Utilities.generateRndNumber(1, 11);
@@ -274,8 +293,9 @@ public class Supermarket {
                 }
             }
 
-            //print("DEBUG 3");
-
+            // Every cycle all item's spoiltCycle value will decrement by 1, if the spoiltCycle mod the spoilt value
+            // is equal to 0 then it means that the item has spoilt as the adequate amount of cycles has passed, when
+            // spoilt the item is removed from being able to be sold
             for (Item item : items.values()) {
                 if (item.getQuantity() > 0) {
                     item.setSpoiltCycle(item.getSpoiltCycle() - 1);
@@ -289,12 +309,9 @@ public class Supermarket {
                 }
             }
 
-
-            if (i > 1 && i % 10 == 0) {
-                chooseRandomEvent();
-                log(i, "RANDOM EVENT>" + randomEventType.name());
-            }
-
+            // Checks if a randomEventType is not null and that it is not equal to no purchases and that the event
+            // must run
+            // if all the conditions are met, customers will make 10 purchases, if not then no purchases will be made
             if (randomEventType != null && !randomEventType.equals(RandomEventType.NO_PURCHASES) && runEvent) {
                 for (int purchases = 0; purchases < 10; purchases++) {
                     customerPurchase(i);
@@ -303,12 +320,14 @@ public class Supermarket {
 
             // End of the Day
 
+            // All vendors restock at the end of the day a number between 10 and 100 of each item
             for (Vendor vendor : vendors) {
                 vendor.restock();
             }
 
             // RESTOCK
 
+            // Randomly chooses a vendor which will noshow based on the randomEventType choosen
             int noShowIndex = -1;
             if (randomEventType != null && randomEventType.equals(RandomEventType.VENDOR_NO_SHOW)) {
                 noShowIndex = Utilities.generateRndNumber(0, 3);
@@ -317,6 +336,8 @@ public class Supermarket {
 
             }
 
+            // Supermarket is restocking all items with their maximum amount by making orders to each vendor
+            // respective of what they sell
             for (Item item : items.values()) {
                 int orderQty;
                 if (item.isVegetable()) {
@@ -326,6 +347,8 @@ public class Supermarket {
 
                     if(orderQty != 0){
 
+                        // Ensures that the supermarket is not bankrupt ordering more items. If it is then the
+                        // simulation ends
                         if ((bank + profit) < (orderQty * item.getCost())) {
                             //Game over
                             try {
@@ -344,6 +367,9 @@ public class Supermarket {
                             profit -= (orderQty * item.getCost());
                             item.setQuantity(100);
 
+                            // remainder refers to a value which is returned if a vendor cannot completely
+                            // fulfill an order of a particular amount
+                            // gotOrders refers to the number of fulfilled orders of a product by that vendor
                             int remainder = 0;
                             int gotOrders = 0;
                             try {
@@ -378,6 +404,9 @@ public class Supermarket {
                             profit -= (orderQty * item.getCost());
                             item.setQuantity(100);
 
+                            // remainder refers to a value which is returned if a vendor cannot completely
+                            // fulfill an order of a particular amount
+                            // gotOrders refers to the number of fulfilled orders of a product by that vendor
                             int remainder = 0;
                             int gotOrders = 0;
                             try {
@@ -410,9 +439,13 @@ public class Supermarket {
                                 profit -= (orderQty * item.getCost());
                                 item.setQuantity(100);
 
+                                // remainder refers to a value which is returned if a vendor cannot completely
+                                // fulfill an order of a particular amount
+                                // gotOrders refers to the number of fulfilled orders of a product by that vendor
                                 int remainder = veg.sellStock(item.getName(), orderQty);
 
                                 int gotOrders = orderQty-remainder;
+
                                 orderQty -= gotOrders;
 
 
@@ -427,8 +460,12 @@ public class Supermarket {
                                             "%s: %s (%d)".formatted(veg.getName(), (item.isFruit() ? "Fruit" : 
                                                     "Vegetable"), gotOrders)));
 
-                                    // Both veg and fruit
+                                    // Both veg and fruit - reassigns the veg vendor to another vendor
                                     veg = vendors.get(2);
+
+                                    // remainder refers to a value which is returned if a vendor cannot completely
+                                    // fulfill an order of a particular amount
+                                    // gotOrders refers to the number of fulfilled orders of a product by that vendor
                                     int remainder2 = veg.sellStock(item.getName(), orderQty);
 
                                     int gotOrders2 = orderQty-remainder2;
@@ -489,6 +526,9 @@ public class Supermarket {
                             profit -= (orderQty * item.getCost());
                             item.setQuantity(200);
 
+                            // remainder refers to a value which is returned if a vendor cannot completely
+                            // fulfill an order of a particular amount
+                            // gotOrders refers to the number of fulfilled orders of a product by that vendor
                             int remainder = 0;
                             int gotOrders = 0;
                             try {
@@ -522,6 +562,9 @@ public class Supermarket {
                             profit -= (orderQty * item.getCost());
                             item.setQuantity(200);
 
+                            // remainder refers to a value which is returned if a vendor cannot completely
+                            // fulfill an order of a particular amount
+                            // gotOrders refers to the number of fulfilled orders of a product by that vendor
                             int remainder = 0;
                             int gotOrders = 0;
                             try {
@@ -536,11 +579,15 @@ public class Supermarket {
                             }
 
                             if (remainder > 0) {
-                                // second vendor didnt show up, first didnt have enough stock
+                                // second vendor didnt show up, first didnt have enough stock, return the remaining
+                                // qty that aas not fulfilled
+
                                 profit += (orderQty * item.getCost());
                                 item.setQuantity(item.getQuantity() - orderQty);
                             }
 
+                            // Logs the fulfilled orders into the simulation logBook and a corresponding
+                            // actionLog
                             log(i, "ITEM PURCHASE> Name: %s, Type: %s, Cost: %s, Vendor: %s, Total Purchased: %s"
                                     .formatted(item.getName(), (item.isFruit() ? "Fruit" : "Vegetable"),
                                             item.getCost(),
@@ -588,6 +635,7 @@ public class Supermarket {
 
                                     // remainder refers to a value which is returned if a vendor cannot completely
                                     // fulfill an order of a particular amount
+                                    // gotOrders refers to the number of fulfilled orders of a product by that vendor
                                     int remainder2 = fruits.sellStock(item.getName(), orderQty);
 
                                     int gotOrders2 = orderQty-remainder2;
@@ -600,6 +648,9 @@ public class Supermarket {
                                         item.setQuantity(item.getQuantity() - orderQty);
 
                                         try {
+
+                                            //Throws an exception if there is no more of that fruit that can be
+                                            // stocked by the supermarket as no vendor has available stock
                                             throw new FruitNotAvailableException(item.getName());
                                         } catch (FruitNotAvailableException e) {
                                             log(i, "EXCEPTION> " + e.getMessage());
@@ -608,6 +659,9 @@ public class Supermarket {
                                         }
                                     }
 
+
+                                    // Logs the fulfilled orders into the simulation logBook and a corresponding
+                                    // actionLog
                                     log(i, "ITEM PURCHASE> Name: %s, Type: %s, Cost: %s, Vendor: %s, Total Purchased: %s"
                                             .formatted(item.getName(), (item.isFruit() ? "Fruit" : "Vegetable"), item.getCost(),
                                                     fruits.getName(), (gotOrders2)));
