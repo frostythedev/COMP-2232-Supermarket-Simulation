@@ -1,5 +1,12 @@
 package me.frostythedev.ssimulation;
 
+/*
+ * PROGRAMMERS: Tevin Cole, Jalisa Thompson, Simeone Douglin-Welch
+ *
+ * This class defines the all the charactics of an Item which is to be used by the simulation,
+ * it contains useful getters and mutators which are used to change and retrieve the values of these characteristics
+ * as well as to keep track of the cycles an item has been through and to what extend items have spoilt
+ * */
 public class Item {
 
     private String name;

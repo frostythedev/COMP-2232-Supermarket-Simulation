@@ -7,6 +7,12 @@ import java.util.Scanner;
 
 public class SimulatorMain {
 
+    /*
+    * PROGRAMMERS: Tevin Cole, Jalisa Thompson, Simeone Douglin-Welch
+    * This class defines the entry point of the program which is used to intialize all variables and begin the
+    * simulation, read commandline options and execute user inputs
+    * */
+
     public static void main(String[] args){
         // Initializes the randomNumGenerator of the function
         Utilities.init();
@@ -40,7 +46,7 @@ public class SimulatorMain {
                 if(args[i+1] != null && !args[i+1].equalsIgnoreCase("")) {
                     logFile = args[i + 1];
                 }
-                i+=2;
+                i+=1;
             }else{
                 // Unknown command recognised
                 try {

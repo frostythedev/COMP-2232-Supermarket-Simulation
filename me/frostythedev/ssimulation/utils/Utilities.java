@@ -2,6 +2,11 @@ package me.frostythedev.ssimulation.utils;
 
 import java.util.Random;
 
+/*
+ * PROGRAMMERS: Tevin Cole, Jalisa Thompson, Simeone Douglin-Welch
+ *
+ * This class defines a globally accessible random function which was used through the program for number generation
+ * */
 public class Utilities {
 
     private static Random random;

@@ -1,5 +1,12 @@
 package me.frostythedev.ssimulation.records;
 
+/*
+ * PROGRAMMERS: Tevin Cole, Jalisa Thompson, Simeone Douglin-Welch
+ *
+ * This class defines the characteristics of the ActionLog which contains an identifying cycleIndex, and corresponding
+ *  logMessage which is stored. It also defines useful getters and mutators for the fields of the class for easy
+ * accessibility.
+ * */
 public class ActionLog {
 
     private long cycleIndex;

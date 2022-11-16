@@ -1,5 +1,11 @@
 package me.frostythedev.ssimulation.exceptions;
 
+/*
+ * PROGRAMMERS: Tevin Cole, Jalisa Thompson, Simeone Douglin-Welch
+ *
+ * This class defines an exception that is thrown when a item requested cannot be found in a related storage
+ * container, it takes the name of the items and displays a corresponding error message
+ * */
 public class InvalidItemException extends SupermarketException {
 
     public InvalidItemException(String itemName) {

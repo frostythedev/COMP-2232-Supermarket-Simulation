@@ -8,6 +8,17 @@ import java.util.Objects;
 
 public abstract class Vendor {
 
+    /*
+     * PROGRAMMERS: Tevin Cole, Jalisa Thompson, Simeone Douglin-Welch
+     *
+     * This class defines the abstract implementation of the Vendor class which contains all the information related
+     * to a particular vendor, their stocks as well as functions that can be used to alter the stock o the Vendor and
+     *  sell stock to the supermarket
+     *
+     * There are also utility functions which are used for easier access when making logs, actionLogs, printing and
+     * randomNumber Generation
+     * */
+
     // Contains the name of the vendor
     private String name;
 
@@ -28,6 +39,8 @@ public abstract class Vendor {
 
     // abstract function which can be used to uniquely define how a vendor restocks itself
     public abstract void restock();
+
+    // Changes the stock of a given itemName by quantity
     public void alterStock(String itemName, int quantity){
         // checks if the vendor does not sell the current item
         if(getStock(itemName) == -1){
@@ -119,7 +132,7 @@ public abstract class Vendor {
         return -1;
     }
 
-    // GETTERS and MUTATORS for Vendor class
+    // GETTERS and MUTATORS for Vendor class fields such as name, items and money
     public String getName() {
         return name;
     }
@@ -138,5 +151,9 @@ public abstract class Vendor {
 
     public int getMoney() {
         return money;
+    }
+
+    public void setMoney(int money) {
+        this.money = money;
     }
 }

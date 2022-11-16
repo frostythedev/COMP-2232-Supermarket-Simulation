@@ -16,6 +16,17 @@ import java.util.List;
 
 public class Supermarket {
 
+    /*
+     * PROGRAMMERS: Tevin Cole, Jalisa Thompson, Simeone Douglin-Welch
+     *
+     * This class defines the entire implementation supermarket simulation which contains the occurance of every
+     * specification of the design document, storage cotainers for all relevant fields as well as references to
+     * created vendors and their unqiue implementation of init and restock
+     *
+     * There are also utility functions which are used for easier access when making logs, actionLogs, printing and
+     * randomNumber Generation
+     * */
+
     // Defines the default cycles for the simulation if none is provided
     private static final int DEFAULT_TOTAL_CYCLES = 50;
 
@@ -756,22 +767,18 @@ public class Supermarket {
         return actionCompile.toString();
     }
 
-    // displays the logs contained in the logsList in the best w
+    // displays the logs contained in the logsList, can take in a logFile which the logs would be written to
     public void displayLogs(String logFile) {
 
-        // if the argument supplied for logFile is null then the function prints the logs to the command line
-        if (logFile == null || logFile.equals("")) {
-            for (LogRecord logRecord : logs) {
-                print(logRecord.getLogMessage());
-            }
-        } else {
-
-            //if it is not null (it means it contains a path), then the function writes the contents of the logs List
+        if(logFile != null){
+            //if logFile is not null (this means it contains a path), then the function writes the contents of the logsList
             // to the specified field and prints an message stating such
 
             // File writer
 
             try {
+
+                //Creates a fileWritter, writes every logRecord to the file and then saves the file
                 FileWriter writer = new FileWriter(logFile);
                 writer.write("log information: \n");
                 for (LogRecord logRecord : logs) {
@@ -785,8 +792,13 @@ public class Supermarket {
                 e.printStackTrace();
                 System.out.println("Could not create log file.");
             }
-
         }
+
+        //Prints all logs to the commandline
+        for (LogRecord logRecord : logs) {
+            print(logRecord.getLogMessage());
+        }
+
     }
 
     // General print function for printing to the command line

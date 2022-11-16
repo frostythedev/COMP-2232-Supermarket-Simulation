@@ -1,6 +1,10 @@
 package me.frostythedev.ssimulation;
 
-// Defines a distinguishing type for each random event that cna occir
+/*
+ * PROGRAMMERS: Tevin Cole, Jalisa Thompson, Simeone Douglin-Welch
+ *
+ * This class defines the enum RandomEventType which is used to distinguish each type of random even that can occur
+ * */
 public enum RandomEventType {
     FRIDGE_DOWN,
     ELECTRICITY_OFF,
