@@ -389,6 +389,8 @@ public class Supermarket {
                                 item.setQuantity(item.getQuantity() - orderQty);
                             }
 
+                            // Logs the fulfilled orders into the simulation logBook and a corresponding
+                            // actionLog
                             log(i, "ITEM PURCHASE> Name: %s, Type: %s, Cost: %s, Vendor: %s, Total Purchased: %s"
                                     .formatted(item.getName(), (item.isFruit() ? "Fruit" : "Vegetable"), item.getCost(),
                                             veg.getName(), (gotOrders)));
@@ -426,6 +428,8 @@ public class Supermarket {
                                 item.setQuantity(item.getQuantity() - orderQty);
                             }
 
+                            // Logs the fulfilled orders into the simulation logBook and a corresponding
+                            // actionLog
                             log(i, "ITEM PURCHASE> Name: %s, Type: %s, Cost: %s, Vendor: %s, Total Purchased: %s"
                                     .formatted(item.getName(), (item.isFruit() ? "Fruit" : "Vegetable"), item.getCost(),
                                             veg.getName(), (gotOrders)));
@@ -451,6 +455,9 @@ public class Supermarket {
 
                                 if (orderQty > 0) {
 
+
+                                    // Logs the fulfilled orders into the simulation logBook and a corresponding
+                                    // actionLog
                                     log(i, ("ITEM PURCHASE> Name: %s, Type: %s, Cost: %s, Vendor: %s, Total " +
                                             "Purchased: %s")
                                             .formatted(item.getName(), (item.isFruit() ? "Fruit" : "Vegetable"), item.getCost(),
@@ -486,6 +493,8 @@ public class Supermarket {
                                         }
                                     }
 
+                                    // Logs the fulfilled orders into the simulation logBook and a corresponding
+                                    // actionLog
                                     log(i, ("ITEM PURCHASE> Name: %s, Type: %s, Cost: %s, Vendor: %s, Total " +
                                             "Purchased: %s")
                                             .formatted(item.getName(), (item.isFruit() ? "Fruit" : "Vegetable"), item.getCost(),
@@ -549,6 +558,8 @@ public class Supermarket {
                                 item.setQuantity(item.getQuantity() - orderQty);
                             }
 
+                            // Logs the fulfilled orders into the simulation logBook and a corresponding
+                            // actionLog
                             log(i, "ITEM PURCHASE> Name: %s, Type: %s, Cost: %s, Vendor: %s, Total Purchased: %s"
                                     .formatted(item.getName(), (item.isFruit() ? "Fruit" : "Vegetable"),
                                             item.getCost(),
