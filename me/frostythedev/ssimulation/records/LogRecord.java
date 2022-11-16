@@ -2,20 +2,22 @@ package me.frostythedev.ssimulation.records;
 
 public class LogRecord {
 
-    private long dateTime;
+    private long cycleIndex;
     private String logMessage;
 
-    public LogRecord(long dateTime, String logMessage) {
-        this.dateTime = dateTime;
+    public LogRecord(long cycleIndex, String logMessage) {
+        this.cycleIndex = cycleIndex;
         this.logMessage = logMessage;
     }
 
-    public long getDateTime() {
-        return dateTime;
+
+    // GETTERS and MUTATORS for cycleIndex and logMessage of record
+    public long getCycleIndex() {
+        return cycleIndex;
     }
 
-    public void setDateTime(long dateTime) {
-        this.dateTime = dateTime;
+    public void setCycleIndex(long cycleIndex) {
+        this.cycleIndex = cycleIndex;
     }
 
     public String getLogMessage() {

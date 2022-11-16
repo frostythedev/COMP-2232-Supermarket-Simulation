@@ -8,9 +8,13 @@ import java.util.Objects;
 
 public abstract class Vendor {
 
+    // Contains the name of the vendor
     private String name;
+
+    // represents the profit of the vendor
     private int money;
 
+    // Represents the items store of the vendor which will contain all the item the vendor stocks
     private HashMap<String, Item> items;
 
     public Vendor(String name) {
@@ -19,31 +23,47 @@ public abstract class Vendor {
         this.items = new HashMap<>();
     }
 
+    // abstract function which can be used to uniquely define how a vendor initializes itself
     public abstract void init();
+
+    // abstract function which can be used to uniquely define how a vendor restocks itself
     public abstract void restock();
     public void alterStock(String itemName, int quantity){
+        // checks if the vendor does not sell the current item
         if(getStock(itemName) == -1){
 
-            if(Item.Type.getBy(itemName) != null){
-                Item item = Objects.requireNonNull(Item.Type.getBy(itemName)).item();
+            // ensures that the quantity altered is greater than 0 which means stock is being added
+            if(quantity > 0){
 
-                item.setQuantity(quantity);
+                // ensures that the item exists
+                if(Item.Type.getBy(itemName) != null){
+                    Item item = Objects.requireNonNull(Item.Type.getBy(itemName)).item();
 
-                // Randomly sets the spoilt value between 5 and 10
-                item.setSpoilt(Utilities.generateRndNumber(5, 11));
+                    // add to the stock of the item
+                    item.setQuantity(quantity);
 
-                items.put(itemName.toLowerCase(), item);
-            }else{
+                    // Randomly sets the spoilt value between 5 and 10
+                    item.setSpoilt(Utilities.generateRndNumber(5, 11));
 
-                try {
-                    throw new InvalidItemException(itemName);
-                } catch (InvalidItemException e) {
-                    e.printStackTrace();
-                    //throw new RuntimeException(e);
+                    // store the item and its updated stock in the items storage
+                    items.put(itemName.toLowerCase(), item);
+                }else{
+
+                    // The item requested does not exist
+                    try {
+                        throw new InvalidItemException(itemName);
+                    } catch (InvalidItemException e) {
+                        e.printStackTrace();
+                        //throw new RuntimeException(e);
+                    }
                 }
             }
+
+
         }else{
 
+            // The vendor currently has some stock of the item, retrieve th curren stock and alter the quantity by
+            // the supplied quantity
             Item item = items.get(itemName.toLowerCase());
             int newQuantity = item.getQuantity()+quantity;
 
@@ -51,18 +71,23 @@ public abstract class Vendor {
         }
     }
 
+    // Gets the reference to the Item Object if the vendor sells that item or returns null if it doesn't
     public Item getItem(String name){
         return items.getOrDefault(name, null);
     }
 
+    // Sell stock is used to alter the quantity of the vendors stock, add the calculated profits and if the requested
+    // amount is greater than the stock that the vendor has on hand, return the remainder of the stock that the
+    // vendor was NOT able to fulfil.
     public int sellStock(String name, int quantity) throws InvalidItemException {
         if(getStock(name) == -1){
+            // Vendor does not stock the item that is requested
             throw new InvalidItemException(name);
         }else {
 
             // success
-            //int result = getStock(name) - quantity;
 
+            // if the vendor has enough stock, sell accordingly and add profits, return 0 as all orders were fulfilled
             if(getStock(name)-quantity >= 0){
                 //success
                 alterStock(name, -quantity);
@@ -70,7 +95,8 @@ public abstract class Vendor {
                 return 0;
 
             }else{
-                // not enough
+                // not enough stock therefore a positive remainder will be returned, sell the available stock and set
+                // the current stock to 0
 
                 int overflow = -1*(getStock(name)-quantity);
 
@@ -82,14 +108,8 @@ public abstract class Vendor {
         }
     }
 
-    public int removeStock(String name, int quantity){
-
-        int updateStock = (getStock(name) - quantity);
-
-        if((updateStock) < 0) return -1;
-        return updateStock;
-    }
-
+    // Searches the vendors items to see if they stock a particular item, if they do then return the amount of stock
+    // that is currently had else return -1 for no stock and no item
     public int  getStock(String itemName){
 
         if(items.containsKey(itemName.toLowerCase())){
@@ -99,6 +119,7 @@ public abstract class Vendor {
         return -1;
     }
 
+    // GETTERS and MUTATORS for Vendor class
     public String getName() {
         return name;
     }

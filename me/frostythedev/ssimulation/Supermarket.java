@@ -719,7 +719,7 @@ public class Supermarket {
         // Go through the logs list and check if the dateTime is equal to the cycle asked for before appending
         // the appropriate record to the compile and returning the completeComple of logs for that cycle
         for (LogRecord lr : logs) {
-            if (lr.getDateTime() == cycle) {
+            if (lr.getCycleIndex() == cycle) {
                 logCompile = lr.getLogMessage() + "\n";
             }
         }
@@ -731,12 +731,12 @@ public class Supermarket {
         StringBuilder actionCompile = new StringBuilder("\tActions performed:\n");
 
         // Go through the actionLogs list and check if the dateTime is equal to the cycle asked for before appending
-        // the appropriate actionLog to to end of the compile and returning the completeCompile of actions for that
+        // the appropriate actionLog to the end of the compile and returning the completeCompile of actions for that
         // cycle
 
         for (ActionLog al : actionLogs) {
             //print("Action size: %d".formatted(actionLogs.size()));
-            if (al.getDateTime() == cycle) {
+            if (al.getCycleIndex() == cycle) {
                 actionCompile.append("\t\t")
                         .append(al.getLogMessage())
                         .append("\n");

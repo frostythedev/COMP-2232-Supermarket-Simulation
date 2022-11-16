@@ -19,6 +19,10 @@ public class Item {
         this.spoiltCycle = spoilt;
     }
 
+    // GETTERS and MUTATORS for fields of Item class
+    // isVegetable returns true of it's itemType enum starts with VEG
+    // isFruit returns true if the item is not a vegetable
+
     public boolean isVegetable(){
         return itemType.toString().startsWith("VEG");
     }
@@ -75,11 +79,10 @@ public class Item {
         this.spoiltCycle = spoiltCycle;
     }
 
-    public String log(){
-        return "{" +
-                "}";
-    }
-
+    // Used to distinguish between items , contains default variables such as the name of the item as well as the cost
+    // Contains useful functions such as byType which can return a type based on the string name and an item function
+    // which returns an empty item
+    // Contains an array which stores all the vegetables and a seperate array which stores all the fruits of type
     protected enum Type {
         FRUIT_MANGO("Mango", 5),
         FRUIT_AVOCADO("Avacado", 10),
@@ -102,6 +105,8 @@ public class Item {
             this.itemCost = itemCost;
         }
 
+        // Gets the type by comparing the name of al values of this enum until it finds a matching name, if none is
+        // found, null is returned
         public static Type getBy(String name){
             for(Type type : values()){
                 if(type.getItemName().equalsIgnoreCase(name)){
@@ -111,6 +116,8 @@ public class Item {
 
             return null;
         }
+
+        // GETTERS and MUTATORS for itemName and itemCost of Type
         public String getItemName() {
             return itemName;
         }

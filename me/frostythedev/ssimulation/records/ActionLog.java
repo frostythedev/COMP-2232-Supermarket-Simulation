@@ -2,20 +2,21 @@ package me.frostythedev.ssimulation.records;
 
 public class ActionLog {
 
-    private long dateTime;
+    private long cycleIndex;
     private String logMessage;
 
-    public ActionLog(long dateTime, String logMessage) {
-        this.dateTime = dateTime;
+    public ActionLog(long cycleIndex, String logMessage) {
+        this.cycleIndex = cycleIndex;
         this.logMessage = logMessage;
     }
 
-    public long getDateTime() {
-        return dateTime;
+    // GETTERS and MUTATORS for cycleIndex and logMessage of actionLog
+    public long getCycleIndex() {
+        return cycleIndex;
     }
 
     public void setDateTime(long dateTime) {
-        this.dateTime = dateTime;
+        this.cycleIndex = dateTime;
     }
 
     public String getLogMessage() {
