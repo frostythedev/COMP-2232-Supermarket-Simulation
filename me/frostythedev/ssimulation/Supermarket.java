@@ -15,28 +15,49 @@ import java.util.HashMap;
 import java.util.List;
 
 public class Supermarket {
+
+    // Defines the default cycles for the simulation if none is provided
     private static final int DEFAULT_TOTAL_CYCLES = 50;
+
+    // Defines the amount of cycles supplied to the simulation, default will assign to DEFAULT_TOTAL_CYCLES
     private int totalCycles;
 
+    // Defines the money that the supermarket makes in profit and stored in the bank
     private int profit, bank;
 
+    // Defines if the simulation prints detailed messages in its system messages
     private boolean verbose;
+
+    // Stores the location of the logFile that would be outputed too
     private String logFile;
 
+    // Stores a list (container) of all the vendors of the supermarket
     private List<Vendor> vendors;
+
+    // Stores the name and Item object of each item that the supermarket owns
     private HashMap<String, Item> items;
+
+    // Stores the number of spoilt goods that the supermarket has
     private int spoiltGoods;
 
+    // Stores all the records made by the simulation when it runs
     private List<LogRecord> logs;
+
+    // Stores all actionLogs such as spoiltFood, vendorPurchase etc omade by the simulation
     private List<ActionLog> actionLogs;
 
+    // Stores the current random event that is to occur
     private RandomEventType randomEventType;
+
+    // Defines if the afforementioned randomEvent should occur in that particular cycle of the simulation
     private boolean runEvent;
 
+    // Default constructor, sets the number of cycles to the default amount of cycles defined above
     public Supermarket() {
         this(DEFAULT_TOTAL_CYCLES);
     }
 
+    // Overloaded constructor, sets the total cycles to the inputted parameter totalCycles
     public Supermarket(int totalCycles) {
         this.totalCycles = totalCycles;
         /*this.vendors = new ArrayList<>();
@@ -49,6 +70,10 @@ public class Supermarket {
         this.bank = 1000;*/
     }
 
+    // Initializes the simulation by clearing out all of its dataStores and resettting fields to their default
+    // value, initializes all the items that the supermarket would carry with an initial quantity of 0, initializes
+    // all the vendors of the supermarket and defines their init and restock function which is different depending on
+    // what that vendor supplies
     public void init() {
 
         this.vendors = new ArrayList<>();
@@ -57,15 +82,19 @@ public class Supermarket {
         this.actionLogs = new ArrayList<>();
 
         this.spoiltGoods = 0;
-        this.profit = 1000000;
+        this.profit = 10000;
         this.bank = 1000;
 
+        // Inits all items to an 'empty' item of quantity 0, then adds it to the supermarkets store 'items'
+        // Also generates the random spoilt value which would determine how many cycles it takes for a single item to
+        // go bad
         for (Item.Type type : Item.Type.values()) {
             Item item = type.item();
             item.setSpoilt(Utilities.generateRndNumber(5, 11));
             items.put(item.getName().toLowerCase(), item);
         }
 
+        //
         vendors.add(new Vendor("Fruits Are Here") {
             @Override
             public void init() {
@@ -521,19 +550,29 @@ public class Supermarket {
                                     "%s: %s (%d)".formatted(fruits.getName(), (item.isFruit() ? "Fruit" : "Vegetable"), gotOrders)));
                         } else {
 
+                            // This case refers to when all vendors will show for this type of item
+
                             try {
 
                                 profit -= (orderQty * item.getCost());
                                 item.setQuantity(200);
 
+                                // remainder refers to a value which is returned if a vendor cannot completely fulfil
+                                // an order of a particular amount
                                 int remainder = fruits.sellStock(item.getName(), orderQty);
 
+                                // fulfilled orders that was delivered from the supplier to the supermarket
                                 int gotOrders = orderQty-remainder;
+
+                                // sets the newOrderQty to less than the orders that were delivered
                                 orderQty -= gotOrders;
 
-
+                                // if the supermarket has to go to another vendor for more supply, orderQty will be
+                                // greater than 0 as the remainder not supplied was a number greater than 0
                                 if (orderQty > 0) {
 
+                                    // Logs the fulfilled orders into the simulation logBook and a corresponding
+                                    // actionLog
                                     log(i, "ITEM PURCHASE> Name: %s, Type: %s, Cost: %s, Vendor: %s, Total Purchased: %s"
                                             .formatted(item.getName(), (item.isFruit() ? "Fruit" : "Vegetable"),
                                                     item.getCost(),
@@ -543,7 +582,12 @@ public class Supermarket {
                                             "%s: %s (%d)".formatted(fruits.getName(), (item.isFruit() ? "Fruit" : "Vegetable"), gotOrders)));
 
                                     // Both veg and fruit
+
+                                    //sets the new vendor to the other that can supply
                                     fruits = vendors.get(2);
+
+                                    // remainder refers to a value which is returned if a vendor cannot completely
+                                    // fulfill an order of a particular amount
                                     int remainder2 = fruits.sellStock(item.getName(), orderQty);
 
                                     int gotOrders2 = orderQty-remainder2;
@@ -581,11 +625,15 @@ public class Supermarket {
                 }
             }
 
+            // Sets randomEventRun to false so that it does not run again in the next cycle
             runEvent = false;
 
+            // Prints information related to the cycle that recently ran including profits, total cycles up to that
+            // point and vendor profits
             print("Commands Passed: ");
             print(getCommandsPassed());
 
+            // Prints detailed messages if required by the commandLineArgs
             if(verbose){
                 print("Cycle #%d ".formatted((i+1)));
                 print(getActionsForCycle(i));
@@ -598,17 +646,24 @@ public class Supermarket {
             print(" ");
 
 
+            // Stores the market's profits in the bank and resets the profits for another cycle
             bank += profit;
             profit = 0;
         }
     }
 
+    // Utility function used to quickly add a log to the logList, takes an index which represents the cycle and the
+    // message containing what to log
     public void log(int index, String log) {
         this.logs.add(new LogRecord(index, log));
     }
 
+    // Returns a string which contains all the logged records for a particular cycle
     public String getLogsForCycle(int cycle) {
         String logCompile = "";
+
+        // Go through the logs list and check if the dateTime is equal to the cycle asked for before appending
+        // the appropriate record to the compile and returning the completeComple of logs for that cycle
         for (LogRecord lr : logs) {
             if (lr.getDateTime() == cycle) {
                 logCompile = lr.getLogMessage() + "\n";
@@ -617,8 +672,13 @@ public class Supermarket {
         return logCompile;
     }
 
+    // Returns a string which contains all the actions logged for a particular cycle
     public String getActionsForCycle(int cycle) {
         StringBuilder actionCompile = new StringBuilder("\tActions performed:\n");
+
+        // Go through the actionLogs list and check if the dateTime is equal to the cycle asked for before appending
+        // the appropriate actionLog to to end of the compile and returning the completeCompile of actions for that
+        // cycle
 
         for (ActionLog al : actionLogs) {
             //print("Action size: %d".formatted(actionLogs.size()));
@@ -631,12 +691,18 @@ public class Supermarket {
         return actionCompile.toString();
     }
 
+    // displays the logs contained in the logsList in the best w
     public void displayLogs(String logFile) {
+
+        // if the argument supplied for logFile is null then the function prints the logs to the command line
         if (logFile == null || logFile.equals("")) {
             for (LogRecord logRecord : logs) {
                 print(logRecord.getLogMessage());
             }
         } else {
+
+            //if it is not null (it means it contains a path), then the function writes the contents of the logs List
+            // to the specified field and prints an message stating such
 
             // File writer
 
@@ -658,14 +724,17 @@ public class Supermarket {
         }
     }
 
+    // General print function for printing to the command line
     private void print(String message) {
         System.out.printf(message + "\n");
     }
 
+    // Mutator for verbose field
     public void setDetailedLogs(boolean verbose) {
         this.verbose = verbose;
     }
 
+    // Mutator for setting the logFile
     public void setLogFile(String logFile) {
         this.logFile = logFile;
     }
