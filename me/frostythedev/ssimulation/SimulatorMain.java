@@ -20,19 +20,14 @@ public class SimulatorMain {
 
         selection = selection.substring(0, 1);
 
-        switch (selection.toUpperCase()){
-            case "A":
-                supermarket.cycle();
-                break;
-            case "B":
-                supermarket.displayLogs();
-                break;
-            case "C":
+        switch (selection.toUpperCase()) {
+            case "A" -> supermarket.cycle();
+            case "B" -> supermarket.displayLogs();
+            case "C" -> {
                 print("Simulation Ended!");
                 System.exit(0);
-                break;
-            default:
-                break;
+            }
+            default -> print("Unknown command please enter another!");
         }
 
     }

@@ -1,44 +1,69 @@
 package me.frostythedev.ssimulation;
 
+import me.frostythedev.ssimulation.exceptions.InvalidItemException;
+import me.frostythedev.ssimulation.utils.Utilities;
 import me.frostythedev.ssimulation.vegetables.Vegetable;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import java.util.*;
 
 public abstract class Vendor {
 
     private String name;
-    private List<Item> items;
+    private HashMap<String, Item> items;
 
     public Vendor(String name) {
         this.name = name;
-        this.items = new ArrayList<>();
+        this.items = new HashMap<>();
     }
 
     public abstract void init();
     public abstract void restock();
+    public void alterStock(String itemName, int quantity){
+        if(getStock(itemName) == -1){
 
-    public void addStock(Item item, int quantity){
-        if(items.isEmpty()) {items.add(item); return;}
+            if(Item.Type.getBy(itemName) != null){
+                Item item = Objects.requireNonNull(Item.Type.getBy(itemName)).item();
 
-        if(getStock(item.getName()) == -1){
-            items.add(item);
-        }else{
-            items.stream().forEach(item1 -> {
-                if(item1.getName().equalsIgnoreCase(item.getName())){
-                    item1.setQuantity(item1.getQuantity()+quantity);
+                item.setQuantity(quantity);
+
+                // Randomly sets the spoilt value between 5 and 10
+                item.setSpoilt(Utilities.generateRndNumber(5, 11));
+
+                items.put(itemName.toLowerCase(), item);
+            }else{
+
+                try {
+                    throw new InvalidItemException(itemName);
+                } catch (InvalidItemException e) {
+                    e.printStackTrace();
+                    //throw new RuntimeException(e);
                 }
-            });
-        }
+            }
+        }else{
 
+            Item item = items.get(itemName.toLowerCase());
+            int newQuantity = item.getQuantity()+quantity;
+
+            item.setQuantity(Math.max(newQuantity, 0));
+        }
+    }
+
+    public Item getItem(String name){
+        return items.getOrDefault(name, null);
+    }
+
+    public int removeStock(String name, int quantity){
+
+        int updateStock = (getStock(name) - quantity);
+
+        if((updateStock) < 0) return -1;
+        return updateStock;
     }
 
     public int getStock(String itemName){
-        for(Item item : items) {
-            if(item.getName().equalsIgnoreCase(itemName)){
-                return item.getQuantity();
-            }
+
+        if(items.containsKey(itemName)){
+            return items.get(itemName).getQuantity();
         }
 
         return -1;
@@ -52,11 +77,11 @@ public abstract class Vendor {
         this.name = name;
     }
 
-    public List<Item> getItems() {
+    public HashMap<String, Item> getItems() {
         return items;
     }
 
-    public void setItems(List<Item> items) {
+    public void setItems(HashMap<String, Item> items) {
         this.items = items;
     }
 }
