@@ -1,4 +1,4 @@
-package me.frostythedev.ssimulation;
+package me.frostythedev.ssimulation.records;
 
 public class LogRecord {
 

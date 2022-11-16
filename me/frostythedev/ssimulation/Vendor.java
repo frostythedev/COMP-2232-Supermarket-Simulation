@@ -2,9 +2,9 @@ package me.frostythedev.ssimulation;
 
 import me.frostythedev.ssimulation.exceptions.InvalidItemException;
 import me.frostythedev.ssimulation.utils.Utilities;
-import me.frostythedev.ssimulation.vegetables.Vegetable;
 
-import java.util.*;
+import java.util.HashMap;
+import java.util.Objects;
 
 public abstract class Vendor {
 

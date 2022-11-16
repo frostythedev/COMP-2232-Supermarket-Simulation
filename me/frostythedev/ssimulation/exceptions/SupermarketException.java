@@ -1,8 +1,6 @@
 package me.frostythedev.ssimulation.exceptions;
 
-import me.frostythedev.ssimulation.LogRecord;
-
-import java.util.concurrent.RecursiveTask;
+import me.frostythedev.ssimulation.records.LogRecord;
 
 public class SupermarketException extends Exception {
 
