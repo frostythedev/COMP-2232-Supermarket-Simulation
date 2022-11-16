@@ -9,10 +9,13 @@ import java.util.*;
 public abstract class Vendor {
 
     private String name;
+    private int money;
+
     private HashMap<String, Item> items;
 
     public Vendor(String name) {
         this.name = name;
+        this.money = 0;
         this.items = new HashMap<>();
     }
 
@@ -52,6 +55,33 @@ public abstract class Vendor {
         return items.getOrDefault(name, null);
     }
 
+    public int sellStock(String name, int quantity) throws InvalidItemException {
+        if(getStock(name) == -1){
+            throw new InvalidItemException(name);
+        }else {
+
+            // success
+            //int result = getStock(name) - quantity;
+
+            if(getStock(name)-quantity >= 0){
+                //success
+                alterStock(name, -quantity);
+                 money+=(quantity * Objects.requireNonNull(Item.Type.getBy(name)).getItemCost());
+                return 0;
+
+            }else{
+                // not enough
+
+                int overflow = -1*(getStock(name)-quantity);
+
+                alterStock(name, -overflow);
+
+                // return remainder
+                return (overflow);
+            }
+        }
+    }
+
     public int removeStock(String name, int quantity){
 
         int updateStock = (getStock(name) - quantity);
@@ -60,10 +90,10 @@ public abstract class Vendor {
         return updateStock;
     }
 
-    public int getStock(String itemName){
+    public int  getStock(String itemName){
 
-        if(items.containsKey(itemName)){
-            return items.get(itemName).getQuantity();
+        if(items.containsKey(itemName.toLowerCase())){
+            return items.get(itemName.toLowerCase()).getQuantity();
         }
 
         return -1;
@@ -83,5 +113,9 @@ public abstract class Vendor {
 
     public void setItems(HashMap<String, Item> items) {
         this.items = items;
+    }
+
+    public int getMoney() {
+        return money;
     }
 }

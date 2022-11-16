@@ -19,6 +19,14 @@ public class Item {
         this.spoiltCycle = spoilt;
     }
 
+    public boolean isVegetable(){
+        return itemType.toString().startsWith("VEG");
+    }
+
+    public boolean isFruit(){
+        return !isVegetable();
+    }
+
     public Type getItemType() {
         return itemType;
     }

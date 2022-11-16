@@ -14,20 +14,22 @@ public class SimulatorMain {
 
         Scanner scanner = new Scanner(System.in);
 
-        displayMenu();
-        print("Enter your selection:\n");
-        String selection = scanner.nextLine();
+        while (true){
+            displayMenu();
+            print("Enter your selection:\n");
+            String selection = scanner.nextLine();
 
-        selection = selection.substring(0, 1);
+            selection = selection.substring(0, 1);
 
-        switch (selection.toUpperCase()) {
-            case "A" -> supermarket.cycle();
-            case "B" -> supermarket.displayLogs();
-            case "C" -> {
-                print("Simulation Ended!");
-                System.exit(0);
+            switch (selection.toUpperCase()) {
+                case "A" -> supermarket.run();
+                case "B" -> supermarket.displayLogs();
+                case "C" -> {
+                    print("Simulation Ended!");
+                    System.exit(0);
+                }
+                default -> print("Unknown command please enter another!");
             }
-            default -> print("Unknown command please enter another!");
         }
 
     }

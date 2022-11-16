@@ -10,6 +10,7 @@ public class SupermarketException extends Exception {
     private final String message;
 
     public SupermarketException(String message){
+        super(message);
         this.dateTime = System.currentTimeMillis();
         this.message = message;
     }
