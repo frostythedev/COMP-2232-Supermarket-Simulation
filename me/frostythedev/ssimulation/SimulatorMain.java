@@ -8,7 +8,7 @@ import java.util.Scanner;
 public class SimulatorMain {
 
     /*
-    * PROGRAMMERS: Tevin Cole, Jalisa Thompson, Simeone Douglin-Welch
+    * PROGRAMMERS: Tevin Cole, Jalisa Thompson, Simone Doughlin-Welsh
     * This class defines the entry point of the program which is used to intialize all variables and begin the
     * simulation, read commandline options and execute user inputs
     * */

@@ -1,7 +1,7 @@
 package me.frostythedev.ssimulation.exceptions;
 
 /*
- * PROGRAMMERS: Tevin Cole, Jalisa Thompson, Simeone Douglin-Welch
+ * PROGRAMMERS: Tevin Cole, Jalisa Thompson, Simone Doughlin-Welsh
  *
  * This class defines an exception that is thrown when a item requested cannot be found in a related storage
  * container, it takes the name of the items and displays a corresponding error message

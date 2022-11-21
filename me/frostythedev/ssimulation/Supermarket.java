@@ -17,7 +17,7 @@ import java.util.List;
 public class Supermarket {
 
     /*
-     * PROGRAMMERS: Tevin Cole, Jalisa Thompson, Simeone Douglin-Welch
+     * PROGRAMMERS: Tevin Cole, Jalisa Thompson, Simone Doughlin-Welsh
      *
      * This class defines the entire implementation supermarket simulation which contains the occurance of every
      * specification of the design document, storage cotainers for all relevant fields as well as references to
@@ -33,7 +33,7 @@ public class Supermarket {
     // Defines the amount of cycles supplied to the simulation, default will assign to DEFAULT_TOTAL_CYCLES
     private int totalCycles;
 
-    // Defines the money that the supermarket makes in profit and stored in the bank
+    // Stores the money that the supermarket makes in profit and stores the amount of money stored in the bank
     private int profit, bank;
 
     // Defines if the simulation prints detailed messages in its system messages
@@ -254,13 +254,13 @@ public class Supermarket {
             if (i != 1 && Utilities.generateRndNumber(1, 101) < 25) {
                 // random even occurs
                 chooseRandomEvent();
-                log(i, "RANDOM EVENT>" + randomEventType.name());
+                log(i, "RANDOM EVENT> " + randomEventType.name());
             }
 
             // Every 10 cycles a random event WILL 100% occur, this chooses that random event and logs it
             if (i > 1 && i % 10 == 0) {
                 chooseRandomEvent();
-                log(i, "RANDOM EVENT>" + randomEventType.name());
+                log(i, "RANDOM EVENT> " + randomEventType.name());
             }
 
             // Random events which may occur at the start of each day and their implementation

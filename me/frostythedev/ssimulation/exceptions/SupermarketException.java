@@ -3,7 +3,7 @@ package me.frostythedev.ssimulation.exceptions;
 import me.frostythedev.ssimulation.records.LogRecord;
 
 /*
- * PROGRAMMERS: Tevin Cole, Jalisa Thompson, Simeone Douglin-Welch
+ * PROGRAMMERS: Tevin Cole, Jalisa Thompson, Simone Doughlin-Welsh
  *
  * This class defines the characteristics of a SupermarketException which all contain a corresponding message
  * detailing the error of the exception

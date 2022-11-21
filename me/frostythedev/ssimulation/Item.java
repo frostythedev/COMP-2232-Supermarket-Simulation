@@ -1,7 +1,7 @@
 package me.frostythedev.ssimulation;
 
 /*
- * PROGRAMMERS: Tevin Cole, Jalisa Thompson, Simeone Douglin-Welch
+ * PROGRAMMERS: Tevin Cole, Jalisa Thompson, Simone Doughlin-Welsh
  *
  * This class defines the all the charactics of an Item which is to be used by the simulation,
  * it contains useful getters and mutators which are used to change and retrieve the values of these characteristics
@@ -9,12 +9,22 @@ package me.frostythedev.ssimulation;
  * */
 public class Item {
 
+    // Stores the name of the item of this object
     private String name;
+
+    // Stores the price of the item of this object
     private double cost;
+
+    // Stores the current quantity of the item in this object
     private int quantity;
+
+    // Stores the randomlyGenerated spoilt value for this item
     private int spoilt;
+
+    // Stores the specific itemItem of the current item
     private Type itemType;
 
+    //Stores the increment of cycles that the item has survived in the simulation
     private int spoiltCycle;
 
     public Item(String name, double cost, int quantity, int spoilt, Type itemType) {
@@ -26,7 +36,6 @@ public class Item {
         this.spoiltCycle = spoilt;
     }
 
-    // GETTERS and MUTATORS for fields of Item class
     // isVegetable returns true of it's itemType enum starts with VEG
     // isFruit returns true if the item is not a vegetable
 
@@ -38,6 +47,7 @@ public class Item {
         return !isVegetable();
     }
 
+    // GETTERS and MUTATORS for fields of Item class
     public Type getItemType() {
         return itemType;
     }

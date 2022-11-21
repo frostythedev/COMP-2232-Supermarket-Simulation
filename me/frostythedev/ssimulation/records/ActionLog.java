@@ -1,7 +1,7 @@
 package me.frostythedev.ssimulation.records;
 
 /*
- * PROGRAMMERS: Tevin Cole, Jalisa Thompson, Simeone Douglin-Welch
+ * PROGRAMMERS: Tevin Cole, Jalisa Thompson, Simone Doughlin-Welsh
  *
  * This class defines the characteristics of the ActionLog which contains an identifying cycleIndex, and corresponding
  *  logMessage which is stored. It also defines useful getters and mutators for the fields of the class for easy
@@ -9,21 +9,22 @@ package me.frostythedev.ssimulation.records;
  * */
 public class ActionLog {
 
-    private long cycleIndex;
+    // Stores the index in which the action was logged
+    private int cycleIndex;
     private String logMessage;
 
-    public ActionLog(long cycleIndex, String logMessage) {
+    public ActionLog(int cycleIndex, String logMessage) {
         this.cycleIndex = cycleIndex;
         this.logMessage = logMessage;
     }
 
     // GETTERS and MUTATORS for cycleIndex and logMessage of actionLog
-    public long getCycleIndex() {
+    public int getCycleIndex() {
         return cycleIndex;
     }
 
-    public void setDateTime(long dateTime) {
-        this.cycleIndex = dateTime;
+    public void setCycleIndex(int index) {
+        this.cycleIndex = index;
     }
 
     public String getLogMessage() {

@@ -3,7 +3,7 @@ package me.frostythedev.ssimulation.utils;
 import java.util.Random;
 
 /*
- * PROGRAMMERS: Tevin Cole, Jalisa Thompson, Simeone Douglin-Welch
+ * PROGRAMMERS: Tevin Cole, Jalisa Thompson, Simone Doughlin-Welsh
  *
  * This class defines a globally accessible random function which was used through the program for number generation
  * */

@@ -9,7 +9,7 @@ import java.util.Objects;
 public abstract class Vendor {
 
     /*
-     * PROGRAMMERS: Tevin Cole, Jalisa Thompson, Simeone Douglin-Welch
+     * PROGRAMMERS: Tevin Cole, Jalisa Thompson, Simone Doughlin-Welsh
      *
      * This class defines the abstract implementation of the Vendor class which contains all the information related
      * to a particular vendor, their stocks as well as functions that can be used to alter the stock o the Vendor and
@@ -22,7 +22,7 @@ public abstract class Vendor {
     // Contains the name of the vendor
     private String name;
 
-    // represents the profit of the vendor
+    // Stores the profit of the vendor
     private int money;
 
     // Represents the items store of the vendor which will contain all the item the vendor stocks

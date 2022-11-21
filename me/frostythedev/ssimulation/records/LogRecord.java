@@ -1,7 +1,7 @@
 package me.frostythedev.ssimulation.records;
 
 /*
- * PROGRAMMERS: Tevin Cole, Jalisa Thompson, Simeone Douglin-Welch
+ * PROGRAMMERS: Tevin Cole, Jalisa Thompson, Simone Doughlin-Welsh
  *
  * This class defines the characteristics of the LogRecord which contains an identifying cycleIndex, and corresponding
  *  logMessage which is stored. It also defines useful getters and mutators for the fields of the class for easy
